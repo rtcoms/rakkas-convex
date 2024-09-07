@@ -1,22 +1,19 @@
-import { Link, Page } from "rakkasjs";
+import { Page } from "rakkasjs";
+import { api } from "../../convex/_generated/api";
+import { useConvexQuery } from "src/useConvexQuery";
 
 const HomePage: Page = function HomePage() {
+  const tasks = useConvexQuery(api.tasks.get);
+
   return (
     <main>
-      <h1>Hello world!</h1>
-      <p>Welcome to the Rakkas demo page 💃</p>
-      <p>
-        Try editing the files in <code>src/routes</code> to get started or go to
-        the{" "}
-        <a href="https://rakkasjs.org" target="_blank" rel="noreferrer">
-          website
-        </a>
-        .
-      </p>
-      <p>
-        You may also check the little <Link href="/todo">todo application</Link>{" "}
-        to learn about data fetching.
-      </p>
+      {tasks && (
+        <ul>
+          {tasks.map((task) => (
+            <li key={task._id}>{task.text}</li>
+          ))}
+        </ul>
+      )}
     </main>
   );
 };
